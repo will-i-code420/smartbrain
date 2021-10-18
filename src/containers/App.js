@@ -4,7 +4,7 @@ import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import './App.css';
 import Navigation from '../components/Navigation/Navigation';
-//import Logo from '../components/Logo';
+import Logo from '../components/Logo/Logo';
 //import ImageLinkForm from '../components/ImageLinkForm';
 //import FaceRecognition from '../components/FaceRecognition';
 
@@ -12,7 +12,8 @@ function App() {
 	return (
 		<div className="App">
 			<Navigation />
-			{/*<Logo />
+			<Logo />
+			{/*
 			<ImageLinkForm />
       <FaceRecognition />*/}
 		</div>
