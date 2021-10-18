@@ -1,15 +1,30 @@
-import React from 'react';
-import { FileUpload } from 'primereact/fileupload';
+import React, { Component } from 'react';
+import { InputText } from 'primereact/inputtext';
 
-const ImageLinkForm = () => {
-	return (
-		<article>
-			<p>{'Input any photo to detect faces in the picture'}</p>
-			<form>
-				<FileUpload name="photo" url="" />
-			</form>
-		</article>
-	);
-};
+class ImageLinkForm extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			inputURL: ''
+		};
+	}
+	setUrl = (url) => {
+		this.setState({ inputURL: url });
+	};
+	render() {
+		const { inputURL } = this.state;
+		return (
+			<article>
+				<p>{'Input any photo to detect faces in the picture'}</p>
+				<form>
+					<span className="p-float-label">
+						<InputText id="url" value={inputURL} onChange={(e) => this.setUrl(e.target.value)} />
+						<label htmlFor="url">URL</label>
+					</span>
+				</form>
+			</article>
+		);
+	}
+}
 
 export default ImageLinkForm;
