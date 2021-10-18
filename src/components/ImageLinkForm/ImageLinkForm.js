@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
 
 class ImageLinkForm extends Component {
 	constructor(props) {
@@ -21,6 +22,7 @@ class ImageLinkForm extends Component {
 						<InputText id="url" value={inputURL} onChange={(e) => this.setUrl(e.target.value)} />
 						<label htmlFor="url">URL</label>
 					</span>
+					<Button label="Search" className="p-button-raised p-button-rounded" />
 				</form>
 			</article>
 		);
