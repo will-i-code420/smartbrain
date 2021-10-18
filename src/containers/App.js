@@ -1,16 +1,20 @@
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
 import './App.css';
-import Navigation from '../components/Navigation';
-import Logo from '../components/Logo';
-import ImageLinkForm from '../components/ImageLinkForm';
-import FaceRecognition from '../components/FaceRecognition';
+import Navigation from '../components/Navigation/Navigation';
+//import Logo from '../components/Logo';
+//import ImageLinkForm from '../components/ImageLinkForm';
+//import FaceRecognition from '../components/FaceRecognition';
 
 function App() {
 	return (
 		<div className="App">
 			<Navigation />
-			<Logo />
+			{/*<Logo />
 			<ImageLinkForm />
-			<FaceRecognition />
+      <FaceRecognition />*/}
 		</div>
 	);
 }
