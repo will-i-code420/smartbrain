@@ -17,12 +17,15 @@ class ImageLinkForm extends Component {
 		return (
 			<article>
 				<p>{'Input any photo to detect faces in the picture'}</p>
-				<form>
-					<span className="p-float-label">
-						<InputText id="url" value={inputURL} onChange={(e) => this.setUrl(e.target.value)} />
-						<label htmlFor="url">URL</label>
-					</span>
-					<Button label="Search" className="p-button-raised p-button-rounded" />
+				<form className="p-fluid">
+					<div className="p-field p-grid p-justify-center">
+						<div className="p-col-4">
+							<InputText id="url" value={inputURL} onChange={(e) => this.setUrl(e.target.value)} />
+						</div>
+						<div className="p-col-2">
+							<Button label="Search" className="p-button-raised p-button-rounded" />
+						</div>
+					</div>
 				</form>
 			</article>
 		);
