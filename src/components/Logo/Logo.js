@@ -5,7 +5,7 @@ import './Logo.css';
 
 const Logo = () => {
 	return (
-		<div>
+		<div className="p-my-5 p-d-flex p-justify-center">
 			<Tilty className="tilty" glare scale={1.05} maxGlare={0.5}>
 				<div className="inner">
 					<img src={brain} alt="SmartBrain Logo" />

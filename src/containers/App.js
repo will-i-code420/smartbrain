@@ -9,20 +9,32 @@ import Navigation from '../components/Navigation/Navigation';
 import Logo from '../components/Logo/Logo';
 import ImageLinkForm from '../components/ImageLinkForm/ImageLinkForm';
 import Rank from '../components/Rank/Rank';
-//import FaceRecognition from '../components/FaceRecognition';
+import FaceRecognition from '../components/FaceRecognition/FaceRecognition';
+import Clarifai from 'clarifai';
+
+const clarifai = new Clarifai.App({
+	apiKey: process.env.REACT_APP_CLARIFAI_KEY
+});
 
 class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isLoggedIn: false
+			isLoggedIn: false,
+			inputUrl: '',
+			imageUrl: ''
 		};
 	}
-	particlesInit = (main) => {
-		console.log(main);
+	onUrlInput = (e) => {
+		this.setState({ inputUrl: e.target.value });
 	};
-	particlesLoaded = (container) => {
-		console.log(container);
+	submitUrl = (e) => {
+		e.preventDefault();
+		this.setState({ imageUrl: this.state.inputUrl });
+		clarifai.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputUrl).then((res, err) => {
+			if (err) return console.log(err);
+			console.log(res.outputs[0].data.regions[0].region_info.bounding_box);
+		});
 	};
 	render() {
 		return (
@@ -31,10 +43,8 @@ class App extends Component {
 				<Navigation />
 				<Logo />
 				<Rank />
-				<ImageLinkForm />
-				{/*
-        
-        <FaceRecognition />*/}
+				<ImageLinkForm onUrlInput={this.onUrlInput} submitUrl={this.submitUrl} />
+				<FaceRecognition imageUrl={this.state.imageUrl} />
 			</div>
 		);
 	}
