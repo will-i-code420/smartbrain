@@ -22,7 +22,8 @@ class App extends Component {
 		this.state = {
 			isLoggedIn: false,
 			inputUrl: '',
-			imageUrl: ''
+			imageUrl: '',
+			faceBox: []
 		};
 	}
 	onUrlInput = (e) => {
@@ -31,10 +32,29 @@ class App extends Component {
 	submitUrl = (e) => {
 		e.preventDefault();
 		this.setState({ imageUrl: this.state.inputUrl });
-		clarifai.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputUrl).then((res, err) => {
-			if (err) return console.log(err);
-			console.log(res.outputs[0].data.regions[0].region_info.bounding_box);
-		});
+		clarifai.models
+			.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputUrl)
+			.then((res) => {
+				this.createFaceBox(this.calculateFaceLocation(res));
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
+	calculateFaceLocation = (data) => {
+		const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+		const image = document.getElementById('input-image');
+		const width = Number(image.width);
+		const height = Number(image.height);
+		return {
+			leftCol: clarifaiFace.left_col * width,
+			topRow: clarifaiFace.top_row * height,
+			rightCol: width - clarifaiFace.right_col * width,
+			bottomRow: height - clarifaiFace.bottom_row * height
+		};
+	};
+	createFaceBox = (box) => {
+		this.setState({ faceBox: box });
 	};
 	render() {
 		return (
@@ -44,7 +64,7 @@ class App extends Component {
 				<Logo />
 				<Rank />
 				<ImageLinkForm onUrlInput={this.onUrlInput} submitUrl={this.submitUrl} />
-				<FaceRecognition imageUrl={this.state.imageUrl} />
+				<FaceRecognition imageUrl={this.state.imageUrl} faceBox={this.state.faceBox} />
 			</div>
 		);
 	}

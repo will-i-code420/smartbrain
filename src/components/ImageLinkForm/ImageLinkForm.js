@@ -1,17 +1,18 @@
 import React from 'react';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import './ImageLinkForm.css';
 
 const ImageLinkForm = ({ inputUrl, onUrlInput, submitUrl }) => {
 	return (
 		<article>
 			<p>{'Input any photo to detect faces in the picture'}</p>
 			<form className="p-fluid">
-				<div className="p-field p-grid p-justify-center">
-					<div className="p-col-4">
+				<div id="image-link-form" className="p-field p-grid p-nogutter p-py-4">
+					<div className="p-offset-4 p-col-3">
 						<InputText value={inputUrl} onChange={onUrlInput} />
 					</div>
-					<div className="p-col-2">
+					<div className="p-col-1">
 						<Button label="Search" className="p-button-raised" onClick={submitUrl} />
 					</div>
 				</div>
