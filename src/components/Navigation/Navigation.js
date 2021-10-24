@@ -5,12 +5,17 @@ class Navigation extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			items: [
-				{ label: 'Home', icon: 'pi pi-fw pi-home' },
-				{ label: 'Calendar', icon: 'pi pi-fw pi-calendar' },
-				{ label: 'Edit', icon: 'pi pi-fw pi-pencil' },
-				{ label: 'Documentation', icon: 'pi pi-fw pi-file' },
-				{ label: 'Settings', icon: 'pi pi-fw pi-cog' }
+			notSignedIn: [
+				{
+					label: 'Sign In',
+					icon: 'pi pi-fw pi-sign-in',
+					command: this.props.displaySignIn
+				},
+				{ label: 'Register', icon: 'pi pi-fw pi-id-card' }
+			],
+			signedIn: [
+				{ label: 'Settings', icon: 'pi pi-fw pi-user-edit' },
+				{ label: 'Sign Out', icon: 'pi pi-fw pi-sign-out', command: this.props.signOut }
 			],
 			activeIndex: 0
 		};
@@ -19,10 +24,14 @@ class Navigation extends Component {
 		this.setState({ activeIndex: i });
 	};
 	render() {
-		const { items, activeIndex } = this.state;
+		const { notSignedIn, signedIn, activeIndex } = this.state;
 		return (
 			<nav>
-				<TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => this.setActiveIndex(e.value)} />
+				<TabMenu
+					model={this.props.isSignedIn ? signedIn : notSignedIn}
+					activeIndex={activeIndex}
+					onTabChange={(e) => this.setActiveIndex(e.value)}
+				/>
 			</nav>
 		);
 	}

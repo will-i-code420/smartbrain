@@ -7,6 +7,7 @@ import './App.css';
 import ParticlesBackground from '../components/ParticlesBackground/ParticlesBackground';
 import Navigation from '../components/Navigation/Navigation';
 import Logo from '../components/Logo/Logo';
+import SignIn from '../components/SignIn/SignIn';
 import ImageLinkForm from '../components/ImageLinkForm/ImageLinkForm';
 import Rank from '../components/Rank/Rank';
 import FaceRecognition from '../components/FaceRecognition/FaceRecognition';
@@ -20,14 +21,50 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isLoggedIn: false,
+			isSignedIn: false,
+			isSigningIn: false,
+			user: {},
 			inputUrl: '',
 			imageUrl: '',
-			faceBox: []
+			faceBox: [],
+			username: '',
+			password: '',
+			rememberMe: false
 		};
 	}
+	displaySignIn = () => {
+		this.setState({ isSigningIn: !this.state.isSigningIn });
+	};
 	onUrlInput = (e) => {
 		this.setState({ inputUrl: e.target.value });
+	};
+	inputUsername = (e) => {
+		this.setState({ username: e.target.value });
+	};
+	inputPassword = (e) => {
+		this.setState({ password: e.target.value });
+	};
+	setRememberMe = () => {
+		this.setState({ rememberMe: !this.state.rememberMe });
+	};
+	signIn = (e) => {
+		e.preventDefault();
+		const { username, password, rememberMe } = this.state;
+		const newUser = {
+			username,
+			password,
+			rememberMe
+		};
+		this.setState({ user: newUser });
+		this.setState({ username: '' });
+		this.setState({ password: '' });
+		this.setState({ rememberMe: false });
+		this.setState({ isSigningIn: !this.state.isSigningIn });
+		this.setState({ isSignedIn: !this.state.isSignedIn });
+	};
+	signOut = () => {
+		this.setState({ user: {} });
+		this.setState({ isSignedIn: !this.state.isSignedIn });
 	};
 	submitUrl = (e) => {
 		e.preventDefault();
@@ -57,14 +94,25 @@ class App extends Component {
 		this.setState({ faceBox: box });
 	};
 	render() {
+		const { isSignedIn, isSigningIn, imageUrl, faceBox, username, password, rememberMe } = this.state;
 		return (
 			<div className="App">
 				<ParticlesBackground />
-				<Navigation />
+				<Navigation isSignedIn={isSignedIn} displaySignIn={this.displaySignIn} signOut={this.signOut} />
+				<SignIn
+					username={username}
+					inputUsername={this.inputUsername}
+					password={password}
+					inputPassword={this.inputPassword}
+					rememberMe={rememberMe}
+					setRememberMe={this.setRememberMe}
+					isSigningIn={isSigningIn}
+					signIn={this.signIn}
+				/>
 				<Logo />
 				<Rank />
 				<ImageLinkForm onUrlInput={this.onUrlInput} submitUrl={this.submitUrl} />
-				<FaceRecognition imageUrl={this.state.imageUrl} faceBox={this.state.faceBox} />
+				<FaceRecognition imageUrl={imageUrl} faceBox={faceBox} />
 			</div>
 		);
 	}
