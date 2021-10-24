@@ -11,7 +11,7 @@ class Navigation extends Component {
 					icon: 'pi pi-fw pi-sign-in',
 					command: this.props.displaySignIn
 				},
-				{ label: 'Register', icon: 'pi pi-fw pi-id-card' }
+				{ label: 'Register', icon: 'pi pi-fw pi-id-card', command: this.props.displayRegister }
 			],
 			signedIn: [
 				{ label: 'Settings', icon: 'pi pi-fw pi-user-edit' },

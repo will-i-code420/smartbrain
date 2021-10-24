@@ -8,6 +8,7 @@ import ParticlesBackground from '../components/ParticlesBackground/ParticlesBack
 import Navigation from '../components/Navigation/Navigation';
 import Logo from '../components/Logo/Logo';
 import SignIn from '../components/SignIn/SignIn';
+import Register from '../components/Register/Register';
 import ImageLinkForm from '../components/ImageLinkForm/ImageLinkForm';
 import Rank from '../components/Rank/Rank';
 import FaceRecognition from '../components/FaceRecognition/FaceRecognition';
@@ -23,11 +24,13 @@ class App extends Component {
 		this.state = {
 			isSignedIn: false,
 			isSigningIn: false,
+			isRegister: false,
 			user: {},
 			inputUrl: '',
 			imageUrl: '',
 			faceBox: [],
 			username: '',
+			email: '',
 			password: '',
 			rememberMe: false
 		};
@@ -35,11 +38,17 @@ class App extends Component {
 	displaySignIn = () => {
 		this.setState({ isSigningIn: !this.state.isSigningIn });
 	};
+	displayRegister = () => {
+		this.setState({ isRegister: !this.state.isRegister });
+	};
 	onUrlInput = (e) => {
 		this.setState({ inputUrl: e.target.value });
 	};
 	inputUsername = (e) => {
 		this.setState({ username: e.target.value });
+	};
+	inputEmail = (e) => {
+		this.setState({ email: e.target.value });
 	};
 	inputPassword = (e) => {
 		this.setState({ password: e.target.value });
@@ -61,6 +70,20 @@ class App extends Component {
 		this.setState({ rememberMe: false });
 		this.setState({ isSigningIn: !this.state.isSigningIn });
 		this.setState({ isSignedIn: !this.state.isSignedIn });
+	};
+	register = (e) => {
+		e.preventDefault();
+		const { username, email, password } = this.state;
+		const newUser = {
+			username,
+			email,
+			password
+		};
+		this.setState({ user: newUser });
+		this.setState({ username: '' });
+		this.setState({ email: '' });
+		this.setState({ password: '' });
+		this.setState({ isRegister: !this.state.isRegister });
 	};
 	signOut = () => {
 		this.setState({ user: {} });
@@ -94,11 +117,26 @@ class App extends Component {
 		this.setState({ faceBox: box });
 	};
 	render() {
-		const { isSignedIn, isSigningIn, imageUrl, faceBox, username, password, rememberMe } = this.state;
+		const {
+			isSignedIn,
+			isSigningIn,
+			isRegister,
+			imageUrl,
+			faceBox,
+			username,
+			email,
+			password,
+			rememberMe
+		} = this.state;
 		return (
 			<div className="App">
 				<ParticlesBackground />
-				<Navigation isSignedIn={isSignedIn} displaySignIn={this.displaySignIn} signOut={this.signOut} />
+				<Navigation
+					isSignedIn={isSignedIn}
+					displaySignIn={this.displaySignIn}
+					displayRegister={this.displayRegister}
+					signOut={this.signOut}
+				/>
 				<SignIn
 					username={username}
 					inputUsername={this.inputUsername}
@@ -108,6 +146,16 @@ class App extends Component {
 					setRememberMe={this.setRememberMe}
 					isSigningIn={isSigningIn}
 					signIn={this.signIn}
+				/>
+				<Register
+					isRegister={isRegister}
+					username={username}
+					inputUsername={this.inputUsername}
+					email={email}
+					inputEmail={this.inputEmail}
+					password={password}
+					inputPassword={this.inputPassword}
+					register={this.register}
 				/>
 				<Logo />
 				<Rank />
