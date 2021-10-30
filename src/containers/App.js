@@ -28,11 +28,7 @@ class App extends Component {
 			user: {},
 			inputUrl: '',
 			imageUrl: '',
-			faceBox: [],
-			username: '',
-			email: '',
-			password: '',
-			rememberMe: false
+			faceBox: []
 		};
 	}
 	displaySignIn = () => {
@@ -44,47 +40,7 @@ class App extends Component {
 	onUrlInput = (e) => {
 		this.setState({ inputUrl: e.target.value });
 	};
-	inputUsername = (e) => {
-		this.setState({ username: e.target.value });
-	};
-	inputEmail = (e) => {
-		this.setState({ email: e.target.value });
-	};
-	inputPassword = (e) => {
-		this.setState({ password: e.target.value });
-	};
-	setRememberMe = () => {
-		this.setState({ rememberMe: !this.state.rememberMe });
-	};
-	signIn = (e) => {
-		e.preventDefault();
-		const { username, password, rememberMe } = this.state;
-		const newUser = {
-			username,
-			password,
-			rememberMe
-		};
-		this.setState({ user: newUser });
-		this.setState({ username: '' });
-		this.setState({ password: '' });
-		this.setState({ rememberMe: false });
-		this.setState({ isSigningIn: !this.state.isSigningIn });
-		this.setState({ isSignedIn: !this.state.isSignedIn });
-	};
-	register = (e) => {
-		e.preventDefault();
-		const { username, email, password } = this.state;
-		const newUser = {
-			username,
-			email,
-			password
-		};
-		this.setState({ user: newUser });
-		this.setState({ username: '' });
-		this.setState({ email: '' });
-		this.setState({ password: '' });
-		this.setState({ isRegister: !this.state.isRegister });
-	};
+
 	signOut = () => {
 		this.setState({ user: {} });
 		this.setState({ isSignedIn: !this.state.isSignedIn });
@@ -117,17 +73,7 @@ class App extends Component {
 		this.setState({ faceBox: box });
 	};
 	render() {
-		const {
-			isSignedIn,
-			isSigningIn,
-			isRegister,
-			imageUrl,
-			faceBox,
-			username,
-			email,
-			password,
-			rememberMe
-		} = this.state;
+		const { isSignedIn, isSigningIn, isRegister, imageUrl, faceBox } = this.state;
 		return (
 			<div className="App">
 				<ParticlesBackground />
@@ -138,25 +84,11 @@ class App extends Component {
 					signOut={this.signOut}
 				/>
 				<SignIn
-					username={username}
-					inputUsername={this.inputUsername}
-					password={password}
-					inputPassword={this.inputPassword}
-					rememberMe={rememberMe}
-					setRememberMe={this.setRememberMe}
+					displaySignIn={this.displaySignIn}
 					isSigningIn={isSigningIn}
-					signIn={this.signIn}
+					displayRegister={this.displayRegister}
 				/>
-				<Register
-					isRegister={isRegister}
-					username={username}
-					inputUsername={this.inputUsername}
-					email={email}
-					inputEmail={this.inputEmail}
-					password={password}
-					inputPassword={this.inputPassword}
-					register={this.register}
-				/>
+				<Register displayRegister={this.displayRegister} isRegister={isRegister} register={this.register} />
 				<Logo />
 				<Rank />
 				<ImageLinkForm onUrlInput={this.onUrlInput} submitUrl={this.submitUrl} />
