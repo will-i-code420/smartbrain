@@ -38,7 +38,13 @@ class SignIn extends Component {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(newUser)
-		});
+		})
+			.then((res) => res.json())
+			.then((msg) => {
+				if (msg === `logged in ${username}`) {
+					// need to do something once sending user back
+				}
+			});
 	};
 	render() {
 		const { username, password, rememberMe } = this.state;
