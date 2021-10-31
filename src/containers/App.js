@@ -25,7 +25,14 @@ class App extends Component {
 			isSignedIn: false,
 			isSigningIn: false,
 			isRegister: false,
-			user: {},
+			user: {
+				id: '',
+				name: '',
+				username: '',
+				email: '',
+				entries: 0,
+				joined: ''
+			},
 			inputUrl: '',
 			imageUrl: '',
 			faceBox: []
@@ -40,7 +47,10 @@ class App extends Component {
 	onUrlInput = (e) => {
 		this.setState({ inputUrl: e.target.value });
 	};
-
+	loadUserInfo = (data) => {
+		const { id, name, username, email, entries, joined } = data;
+		this.setState({ user: { id, name, username, email, entries, joined } });
+	};
 	signOut = () => {
 		this.setState({ user: {} });
 		this.setState({ isSignedIn: !this.state.isSignedIn });
@@ -73,7 +83,7 @@ class App extends Component {
 		this.setState({ faceBox: box });
 	};
 	render() {
-		const { isSignedIn, isSigningIn, isRegister, imageUrl, faceBox } = this.state;
+		const { user, isSignedIn, isSigningIn, isRegister, imageUrl, faceBox } = this.state;
 		return (
 			<div className="App">
 				<ParticlesBackground />
@@ -87,10 +97,16 @@ class App extends Component {
 					displaySignIn={this.displaySignIn}
 					isSigningIn={isSigningIn}
 					displayRegister={this.displayRegister}
+					loadUserInfo={this.loadUserInfo}
 				/>
-				<Register displayRegister={this.displayRegister} isRegister={isRegister} register={this.register} />
+				<Register
+					displayRegister={this.displayRegister}
+					isRegister={isRegister}
+					register={this.register}
+					loadUserInfo={this.loadUserInfo}
+				/>
 				<Logo />
-				<Rank />
+				<Rank username={user.username} entries={user.entries} />
 				<ImageLinkForm onUrlInput={this.onUrlInput} submitUrl={this.submitUrl} />
 				<FaceRecognition imageUrl={imageUrl} faceBox={faceBox} />
 			</div>

@@ -40,9 +40,10 @@ class SignIn extends Component {
 			body: JSON.stringify(newUser)
 		})
 			.then((res) => res.json())
-			.then((msg) => {
-				if (msg === `logged in ${username}`) {
-					// need to do something once sending user back
+			.then((user) => {
+				if (user.id) {
+					this.props.loadUserInfo(user);
+					this.props.displaySignIn();
 				}
 			});
 	};

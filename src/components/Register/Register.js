@@ -44,10 +44,9 @@ class Register extends Component {
 			body: JSON.stringify(newUser)
 		})
 			.then((res) => res.json())
-			.then((msg) => {
-				if (msg === `registered user ${username} at ${email}`) {
-					// need to do something once sending user back
-				}
+			.then((user) => {
+				this.props.loadUserInfo(user);
+				this.props.displayRegister();
 			});
 	};
 	render() {
