@@ -52,7 +52,16 @@ class App extends Component {
 		this.setState({ user: { id, name, username, email, entries, joined } });
 	};
 	signOut = () => {
-		this.setState({ user: {} });
+		this.setState({
+			user: {
+				id: '',
+				name: '',
+				username: '',
+				email: '',
+				entries: 0,
+				joined: ''
+			}
+		});
 		this.setState({ isSignedIn: !this.state.isSignedIn });
 	};
 	submitUrl = (e) => {
@@ -61,6 +70,19 @@ class App extends Component {
 		clarifai.models
 			.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputUrl)
 			.then((res) => {
+				if (res) {
+					fetch('http://localhost:3031/image', {
+						method: 'put',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({ id: this.state.user.id })
+					})
+						.then((res) => res.json)
+						.then((res) => {
+							this.setState(Object.assign(this.state.user, { entries: res }));
+						});
+				}
 				this.createFaceBox(this.calculateFaceLocation(res));
 			})
 			.catch((e) => {

@@ -3,7 +3,6 @@ import { Dialog } from 'primereact/dialog';
 import { Card } from 'primereact/card';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
-import { Checkbox } from 'primereact/checkbox';
 import { Button } from 'primereact/button';
 
 class SignIn extends Component {
@@ -11,8 +10,7 @@ class SignIn extends Component {
 		super(props);
 		this.state = {
 			username: '',
-			password: '',
-			rememberMe: false
+			password: ''
 		};
 	}
 	inputUsername = (e) => {
@@ -21,16 +19,12 @@ class SignIn extends Component {
 	inputPassword = (e) => {
 		this.setState({ password: e.target.value });
 	};
-	setRememberMe = () => {
-		this.setState({ rememberMe: !this.state.rememberMe });
-	};
 	signIn = (e) => {
 		e.preventDefault();
-		const { username, password, rememberMe } = this.state;
+		const { username, password } = this.state;
 		const newUser = {
 			username,
-			password,
-			rememberMe
+			password
 		};
 		fetch('http://localhost:3031/signin', {
 			method: 'post',
@@ -48,7 +42,7 @@ class SignIn extends Component {
 			});
 	};
 	render() {
-		const { username, password, rememberMe } = this.state;
+		const { username, password } = this.state;
 		return (
 			<Dialog visible={this.props.isSigningIn} onHide={() => this.props.displaySignIn}>
 				<Card title="Sign In">
@@ -60,17 +54,6 @@ class SignIn extends Component {
 						<span className="p-mt-2">
 							<Password id="password" name="password" value={password} onChange={this.inputPassword} />
 						</span>
-						<div className="p-my-3 p-as-center">
-							<Checkbox
-								id="rememberMe"
-								name="rememberMe"
-								onChange={this.setRememberMe}
-								checked={rememberMe}
-							/>
-							<label htmlFor="rememberMe" className="p-checkbox-label p-ml-2">
-								Remember Me
-							</label>
-						</div>
 						<div className="p-mb-3 p-as-center">
 							<Button label="Log In" className="p-button-raised p-px-5" onClick={this.signIn} />
 						</div>
